@@ -1,0 +1,52 @@
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+#
+# aliases
+#
+alias ls='ls -alFGhA'
+alias lst='ls -t'
+alias h='history'
+alias hg='history | grep --color=auto $1'
+alias ps='ps -ef | grep --color=auto $1'
+alias cl='clear'
+alias m='more'
+alias vip='vi ~/.profile'
+alias df='df -h'
+#
+# history
+#
+HISTSIZE=1000
+HISTFILESIZE=2000
+#
+# working on a custom prompt here
+# it should look like this: gene.sexton@abaddon 4 >
+#
+export PS1="\[\e[32m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\]\[\e[32m\] \[\e[31m\]\!\[\e[m\]\[\e[33m\] >\[\e[m\] "
+#
+# this bit of goodness will update the tab title with $CWD
+#
+function tab_title {
+  echo -n -e "\033]0;${PWD##*/}\007"
+}
+PROMPT_COMMAND="tab_title ; $PROMPT_COMMAND"
+
